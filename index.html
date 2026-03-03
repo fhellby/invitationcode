@@ -15,553 +15,310 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
         'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
+      background: #050816;
+      padding: 24px;
       min-height: 100vh;
+      color: #e2e8f0;
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
     }
 
     header {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 12px;
+      background: radial-gradient(circle at top left, #4f46e5 0, #1f2933 60%);
+      padding: 24px 28px;
+      border-radius: 16px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
     }
 
     h1 {
-      color: #2d3748;
-      font-size: 28px;
-      margin-bottom: 8px;
+      color: #f9fafb;
+      font-size: 24px;
+      margin-bottom: 4px;
     }
 
     .subtitle {
-      color: #718096;
-      font-size: 14px;
+      color: #cbd5f5;
+      font-size: 13px;
+    }
+
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.45);
+      color: #cbd5f5;
+      border: 1px solid rgba(148, 163, 184, 0.4);
     }
 
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .metric-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+      background: radial-gradient(circle at top left, #111827 0, #020617 70%);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 12px 20px rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      position: relative;
+      overflow: hidden;
     }
 
-    .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.18), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
     }
 
     .metric-label {
-      color: #718096;
-      font-size: 13px;
-      margin-bottom: 8px;
+      color: #9ca3af;
+      font-size: 11px;
+      margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.08em;
     }
 
     .metric-value {
-      color: #2d3748;
-      font-size: 32px;
+      color: #f9fafb;
+      font-size: 26px;
       font-weight: 700;
     }
 
     .metric-sub {
-      color: #a0aec0;
-      font-size: 12px;
+      color: #6b7280;
+      font-size: 11px;
       margin-top: 4px;
     }
 
     .metric-positive {
-      color: #48bb78;
+      color: #4ade80;
     }
 
-    .metric-negative {
-      color: #f56565;
+    .metric-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.35);
     }
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
+      grid-template-columns: 2.2fr 1.2fr;
+      gap: 16px;
       margin-bottom: 20px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: #020617;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(30, 64, 175, 0.45);
+    }
+
+    .card-ghost {
+      background: radial-gradient(circle at top, #020617 0, #000 70%);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e2e8f0;
+      color: #e5e7eb;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .badge-muted {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      color: #9ca3af;
+      background: rgba(17, 24, 39, 0.8);
     }
 
     .chart-container {
       position: relative;
-      height: 300px;
+      height: 260px;
     }
 
     .channel-table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 12px;
     }
 
     .channel-table th {
-      background: #f7fafc;
-      padding: 12px;
+      background: #020617;
+      padding: 8px 6px;
       text-align: left;
-      font-size: 12px;
-      color: #718096;
+      font-size: 11px;
+      color: #6b7280;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
     }
 
     .channel-table td {
-      padding: 12px;
-      border-top: 1px solid #e2e8f0;
-      font-size: 14px;
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+      color: #e5e7eb;
     }
 
     .channel-name {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .channel-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      color: #93c5fd;
+      border: 1px solid rgba(37, 99, 235, 0.4);
     }
 
     .progress-bar {
-      background: #e2e8f0;
-      height: 8px;
-      border-radius: 4px;
+      background: #111827;
+      height: 6px;
+      border-radius: 999px;
       overflow: hidden;
       margin-top: 4px;
     }
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
+      background: linear-gradient(90deg, #4f46e5, #a855f7);
       transition: width 0.3s ease;
     }
 
     .wave-card {
-      background: #f7fafc;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      border-left: 4px solid #667eea;
+      background: radial-gradient(circle at top left, #020617 0, #020617 70%);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
     }
 
     .wave-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .wave-name {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 500;
+      color: #e5e7eb;
+      font-size: 13px;
     }
 
     .wave-status {
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 12px;
-      background: #48bb78;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #16a34a;
       color: white;
     }
 
     .wave-status.in-progress {
-      background: #ed8936;
+      background: #ea580c;
     }
 
     .wave-status.pending {
-      background: #cbd5e0;
-      color: #4a5568;
+      background: #4b5563;
+      color: #e5e7eb;
     }
 
     .wave-stats {
-      font-size: 13px;
-      color: #718096;
-      margin-bottom: 8px;
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
     }
 
     .roi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
     }
 
     .roi-item {
-      background: #f7fafc;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
+      background: #020617;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      text-align: left;
     }
 
     .roi-channel {
-      font-size: 12px;
-      color: #718096;
-      margin-bottom: 8px;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
     }
 
     .roi-cac {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 700;
-      color: #2d3748;
+      color: #e5e7eb;
     }
 
     .roi-efficiency {
       font-size: 11px;
       margin-top: 4px;
-      padding: 2px 6px;
-      border-radius: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
       display: inline-block;
     }
 
     .roi-excellent {
-      background: #c6f6d5;
-      color: #22543d;
+      background: rgba(22, 163, 74, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.5);
     }
 
     .roi-good {
-      background: #bee3f8;
-      color: #2c5282;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.5);
     }
 
     .roi-average {
-      background: #feebc8;
-      color: #7c2d12;
-    }
-
-    @media (max-width: 768px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>🍩 Donut 邀请码分析仪表板</h1>
-      <p class="subtitle">Invitation Code Analytics Dashboard · 实时数据监控</p>
-    </header>
-
-    <!-- Top-level Metrics -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-label">总发放 Total Issued</div>
-        <div class="metric-value" data-metric="total-issued">0</div>
-        <div class="metric-sub">所有波次累计</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">已认领 Claimed</div>
-        <div class="metric-value" data-metric="total-claimed">0</div>
-        <div class="metric-sub metric-positive">↑ 认领率</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">已激活 Activated</div>
-        <div class="metric-value" data-metric="total-activated">0</div>
-        <div class="metric-sub metric-positive">↑ 激活率</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">整体激活率</div>
-        <div class="metric-value" data-metric="overall-rate">0%</div>
-        <div class="metric-sub">已激活/总发放</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">预计月成本</div>
-        <div class="metric-value">$0</div>
-        <div class="metric-sub">基于当前激活率</div>
-      </div>
-    </div>
-
-    <!-- Main Dashboard -->
-    <div class="dashboard-grid">
-      <!-- Daily Activations Chart -->
-      <div class="card full-width">
-        <h2 class="card-title">每日激活趋势 Daily Activations</h2>
-        <div class="chart-container">
-          <canvas id="dailyChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Channel Breakdown Table -->
-      <div class="card">
-        <h2 class="card-title">渠道明细 Channel Breakdown</h2>
-        <table class="channel-table">
-          <thead>
-            <tr>
-              <th>渠道</th>
-              <th>发放</th>
-              <th>认领</th>
-              <th>激活</th>
-              <th>激活率</th>
-            </tr>
-          </thead>
-          <tbody id="channelTableBody"></tbody>
-        </table>
-      </div>
-
-      <!-- Wave Tracking -->
-      <div class="card">
-        <h2 class="card-title">波次追踪 Wave Tracking</h2>
-        <div id="waveContainer"></div>
-      </div>
-
-      <!-- ROI & CAC Analysis -->
-      <div class="card full-width">
-        <h2 class="card-title">ROI 分析 - 各渠道获客成本 (CAC)</h2>
-        <div class="roi-grid" id="roiGrid"></div>
-      </div>
-
-      <!-- Channel Distribution Chart -->
-      <div class="card">
-        <h2 class="card-title">渠道分布 Channel Distribution</h2>
-        <div class="chart-container">
-          <canvas id="channelChart"></canvas>
-        </div>
-      </div>
-
-      <!-- Activation Funnel -->
-      <div class="card">
-        <h2 class="card-title">激活漏斗 Activation Funnel</h2>
-        <div class="chart-container">
-          <canvas id="funnelChart"></canvas>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    let channelData = [];
-    let waveData = [];
-    let dailyData = { labels: [], activations: [] };
-
-    async function loadDashboardData() {
-      try {
-        const res = await fetch('/api/dashboard');
-        const data = await res.json();
-
-        const totals = data.totals || {};
-
-        const issuedEl = document.querySelector('[data-metric="total-issued"]');
-        if (issuedEl) {
-          issuedEl.textContent = (totals.issued || 0).toLocaleString();
-        }
-
-        const claimedEl = document.querySelector('[data-metric="total-claimed"]');
-        if (claimedEl) {
-          claimedEl.textContent = (totals.claimed || 0).toLocaleString();
-        }
-
-        const activatedEl = document.querySelector('[data-metric="total-activated"]');
-        if (activatedEl) {
-          activatedEl.textContent = (totals.activated || 0).toLocaleString();
-        }
-
-        const overallRateEl = document.querySelector('[data-metric="overall-rate"]');
-        if (overallRateEl) {
-          const overallRate = totals.issued
-            ? ((totals.activated / totals.issued) * 100).toFixed(1)
-            : '0.0';
-          overallRateEl.textContent = overallRate + '%';
-        }
-
-        channelData = data.channelData || [];
-        waveData = data.waveData || [];
-        dailyData = data.dailyData || { labels: [], activations: [] };
-
-        renderChannelTable();
-        renderWaves();
-        renderROI();
-        renderCharts();
-      } catch (e) {
-        console.error('loadDashboardData error', e);
-      }
-    }
-
-    function renderChannelTable() {
-      const tbody = document.getElementById('channelTableBody');
-      tbody.innerHTML = '';
-      channelData.forEach((channel) => {
-        const activationRate = channel.issued
-          ? ((channel.activated / channel.issued) * 100).toFixed(1)
-          : '0.0';
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td class="channel-name">${channel.name}</td>
-          <td>${channel.issued.toLocaleString()}</td>
-          <td>${channel.claimed.toLocaleString()}</td>
-          <td>${channel.activated.toLocaleString()}</td>
-          <td>
-            <strong>${activationRate}%</strong>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${activationRate}%"></div>
-            </div>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-    }
-
-    function renderWaves() {
-      const container = document.getElementById('waveContainer');
-      container.innerHTML = '';
-      waveData.forEach((wave) => {
-        const progress = wave.issued
-          ? ((wave.activated / wave.issued) * 100).toFixed(1)
-          : '0.0';
-        const statusClass =
-          wave.status === 'completed'
-            ? ''
-            : wave.status === 'in-progress'
-            ? 'in-progress'
-            : 'pending';
-        const statusText =
-          wave.status === 'completed'
-            ? '已完成'
-            : wave.status === 'in-progress'
-            ? '进行中'
-            : '待发放';
-
-        const card = document.createElement('div');
-        card.className = 'wave-card';
-        card.innerHTML = `
-          <div class="wave-header">
-            <span class="wave-name">${wave.name}</span>
-            <span class="wave-status ${statusClass}">${statusText}</span>
-          </div>
-          <div class="wave-stats">
-            目标: ${wave.range} | 已发放: ${wave.issued.toLocaleString()} |
-            激活: ${wave.activated.toLocaleString()} (${progress}%)
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: ${progress}%"></div>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function renderROI() {
-      const grid = document.getElementById('roiGrid');
-      grid.innerHTML = '';
-      channelData.forEach((channel) => {
-        const cac = channel.activated
-          ? (channel.cost / channel.activated).toFixed(2)
-          : '0.00';
-        const numCac = parseFloat(cac);
-        const efficiencyClass =
-          numCac < 5 ? 'roi-excellent' : numCac < 8 ? 'roi-good' : 'roi-average';
-        const efficiencyText =
-          numCac < 5 ? '优秀' : numCac < 8 ? '良好' : '一般';
-
-        const item = document.createElement('div');
-        item.className = 'roi-item';
-        item.innerHTML = `
-          <div class="roi-channel">${channel.name}</div>
-          <div class="roi-cac">$${cac}</div>
-          <div class="roi-efficiency ${efficiencyClass}">${efficiencyText}</div>
-        `;
-        grid.appendChild(item);
-      });
-    }
-
-    function renderCharts() {
-      const dailyCtx = document.getElementById('dailyChart').getContext('2d');
-      new Chart(dailyCtx, {
-        type: 'line',
-        data: {
-          labels: dailyData.labels,
-          datasets: [
-            {
-              label: '每日激活数',
-              data: dailyData.activations,
-              borderColor: '#667eea',
-              backgroundColor: 'rgba(102, 126, 234, 0.1)',
-              tension: 0.4,
-              fill: true,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-          scales: { y: { beginAtZero: true } },
-        },
-      });
-
-      const channelCtx = document.getElementById('channelChart').getContext('2d');
-      new Chart(channelCtx, {
-        type: 'doughnut',
-        data: {
-          labels: channelData.map((c) => c.name),
-          datasets: [
-            {
-              data: channelData.map((c) => c.activated),
-              backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b'],
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { position: 'bottom' } },
-        },
-      });
-
-      const funnelCtx = document.getElementById('funnelChart').getContext('2d');
-      const totalIssued = channelData.reduce((sum, c) => sum + c.issued, 0);
-      const totalClaimed = channelData.reduce((sum, c) => sum + c.claimed, 0);
-      const totalActivated = channelData.reduce((sum, c) => sum + c.activated, 0);
-
-      new Chart(funnelCtx, {
-        type: 'bar',
-        data: {
-          labels: ['发放 Issued', '认领 Claimed', '激活 Activated'],
-          datasets: [
-            {
-              label: '用户数',
-              data: [totalIssued, totalClaimed, totalActivated],
-              backgroundColor: ['#667eea', '#764ba2', '#f093fb'],
-            },
-          ],
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: { legend: { display: false } },
-        },
-      });
-    }
-
-    window.addEventListener('load', loadDashboardData);
-  </script>
-</body>
-</html>
+      background: rgba(248,
