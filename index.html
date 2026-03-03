@@ -25,25 +25,120 @@
       margin: 0 auto;
     }
 
+    /* 花哨一点的头部：渐变 + 卡片 + Mascot */
     header {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 30px;
-      border-radius: 12px;
+      position: relative;
+      padding: 22px 26px;
+      border-radius: 16px;
       margin-bottom: 20px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #111827 100%);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      overflow: hidden;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(255,255,255,0.16), transparent 55%);
+      pointer-events: none;
+    }
+
+    .header-left {
+      position: relative;
+      z-index: 1;
+      max-width: 70%;
     }
 
     h1 {
-      color: #2d3748;
-      font-size: 28px;
-      margin-bottom: 8px;
+      color: #f9fafb;
+      font-size: 26px;
+      margin-bottom: 6px;
     }
 
     .subtitle {
-      color: #718096;
-      font-size: 14px;
+      color: #e5e7eb;
+      font-size: 13px;
     }
 
+    .tag-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.6);
+      color: #e5e7eb;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      backdrop-filter: blur(6px);
+    }
+
+    .header-right {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar-card {
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      padding: 6px;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,1));
+      border: 1px solid rgba(191, 219, 254, 0.9);
+      box-shadow: 0 14px 32px rgba(15, 23, 42, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #111827, #020617);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-inner img {
+      width: 120%;
+      height: auto;
+      object-fit: contain;
+      transform: translateY(4px);
+    }
+
+    .avatar-label {
+      font-size: 10px;
+      color: #e5e7eb;
+      opacity: 0.9;
+    }
+
+    .header-kpi {
+      font-size: 11px;
+      color: #cbd5f5;
+      margin-top: 4px;
+    }
+
+    .header-kpi span {
+      font-weight: 600;
+      color: #facc15;
+    }
+
+    /* 顶部指标区（和上一版一致） */
     .metrics-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -256,7 +351,7 @@
       color: #7c2d12;
     }
 
-    /* 花哨一点的右侧渠道卡片 */
+    /* 右侧渠道卡片 */
     .channel-side {
       width: 240px;
       margin-left: 12px;
@@ -293,6 +388,17 @@
     }
 
     @media (max-width: 768px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-left {
+        max-width: 100%;
+      }
+      .header-right {
+        align-self: stretch;
+        justify-content: flex-start;
+      }
       .dashboard-grid {
         grid-template-columns: 1fr;
       }
@@ -310,11 +416,32 @@
 <body>
   <div class="container">
     <header>
-      <h1>🍩 Donut 邀请码分析仪表板</h1>
-      <p class="subtitle">Invitation Code Analytics Dashboard · 实时数据监控</p>
+      <div class="header-left">
+        <h1>🍩 Donut 邀请码分析仪表板</h1>
+        <p class="subtitle">Invitation Code Analytics Dashboard · 实时数据监控</p>
+        <div class="tag-row">
+          <span class="tag">邀请码渠道投放</span>
+          <span class="tag">表单行为追踪</span>
+          <span class="tag">多页面统一埋点</span>
+        </div>
+        <p class="header-kpi">
+          当前激活用户：<span data-metric="total-activated">0</span> ·
+          整体激活率：<span data-metric="overall-rate">0%</span>
+        </p>
+      </div>
+      <div class="header-right">
+        <div>
+          <div class="avatar-card">
+            <div class="avatar-inner">
+              <img src="/assets/cc72d603-850b-4655-bf6b-a4c870e7b502_720.png" alt="D0 Mascot" />
+            </div>
+          </div>
+          <div class="avatar-label">D0 Skill Hunter · Mascot</div>
+        </div>
+      </div>
     </header>
 
-    <!-- 顶部指标（在原来的基础上增加更细颗粒度） -->
+    <!-- 顶部指标 -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-label">总发放 Total Issued</div>
@@ -358,7 +485,7 @@
         </div>
       </div>
 
-      <!-- 渠道明细 + 右侧花哨渠道卡片 -->
+      <!-- 渠道明细 + 右侧渠道卡片 -->
       <div class="card">
         <h2 class="card-title">渠道明细 Channel Breakdown</h2>
         <div class="channel-side-wrapper" style="display:flex;align-items:flex-start;">
@@ -429,12 +556,14 @@
           issued.toLocaleString();
         document.querySelector('[data-metric="total-claimed"]').textContent =
           claimed.toLocaleString();
-        document.querySelector('[data-metric="total-activated"]').textContent =
-          activated.toLocaleString();
+        document.querySelectorAll('[data-metric="total-activated"]').forEach(el => {
+          el.textContent = activated.toLocaleString();
+        });
 
         const overallRate = issued ? ((activated / issued) * 100).toFixed(1) : '0.0';
-        document.querySelector('[data-metric="overall-rate"]').textContent =
-          overallRate + '%';
+        document.querySelectorAll('[data-metric="overall-rate"]').forEach(el => {
+          el.textContent = overallRate + '%';
+        });
 
         const claimRate = issued ? ((claimed / issued) * 100).toFixed(1) : '0.0';
         document.querySelector('[data-metric="claim-rate"]').textContent =
