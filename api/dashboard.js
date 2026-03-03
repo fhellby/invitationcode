@@ -1,18 +1,27 @@
 // api/dashboard.js
-import { Client } from 'pg';
+const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL;
+function createClient() {
+  const connectionString = process.env.DATABASE_URL;
+  return new Client({
+    connectionString,
+    ssl: { rejectUnauthorized: false } // Supabase 需要 SSL
+  });
+}
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'GET') {
-    res.status(405).json({ error: 'Method Not Allowed' });
+    res.statusCode = 405;
+    res.json({ error: 'Method Not Allowed' });
     return;
   }
 
+  let client;
   try {
-    const client = new Client({ connectionString });
+    client = createClient();
     await client.connect();
 
+    // 顶部汇总
     const totalSql = `
       SELECT
         SUM(CASE WHEN event_type = 'issued'    THEN 1 ELSE 0 END) AS total_issued,
@@ -23,6 +32,7 @@ export default async function handler(req, res) {
     const totalResult = await client.query(totalSql);
     const totals = totalResult.rows[0] || {};
 
+    // 渠道聚合
     const channelSql = `
       SELECT
         channel,
@@ -43,6 +53,7 @@ export default async function handler(req, res) {
       cost: Number(row.total_cost),
     }));
 
+    // 波次聚合
     const waveSql = `
       SELECT
         COALESCE(wave, 'Unknown') AS wave,
@@ -63,6 +74,7 @@ export default async function handler(req, res) {
       status: 'completed',
     }));
 
+    // 每日激活趋势
     const dailySql = `
       SELECT
         to_char(date_trunc('day', created_at), 'YYYY-MM-DD') AS day,
@@ -78,7 +90,8 @@ export default async function handler(req, res) {
 
     await client.end();
 
-    res.status(200).json({
+    res.statusCode = 200;
+    res.json({
       totals: {
         issued: Number(totals.total_issued || 0),
         claimed: Number(totals.total_claimed || 0),
@@ -93,6 +106,10 @@ export default async function handler(req, res) {
     });
   } catch (err) {
     console.error('dashboard error', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    if (client) {
+      try { await client.end(); } catch (_) {}
+    }
+    res.statusCode = 500;
+    res.json({ error: 'Internal Server Error' });
   }
-}
+};
