@@ -256,9 +256,53 @@
       color: #7c2d12;
     }
 
+    /* 花哨一点的右侧渠道卡片 */
+    .channel-side {
+      width: 240px;
+      margin-left: 12px;
+    }
+
+    .channel-card {
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+    }
+
+    .channel-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #2d3748;
+      margin-bottom: 4px;
+    }
+
+    .channel-card-tagline {
+      font-size: 11px;
+      color: #718096;
+      margin-bottom: 4px;
+    }
+
+    .channel-card-pill {
+      display: inline-block;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      background: #edf2ff;
+      color: #4c51bf;
+    }
+
     @media (max-width: 768px) {
       .dashboard-grid {
         grid-template-columns: 1fr;
+      }
+      .channel-side {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 12px;
+      }
+      .channel-side-wrapper {
+        flex-direction: column;
       }
     }
   </style>
@@ -270,7 +314,7 @@
       <p class="subtitle">Invitation Code Analytics Dashboard · 实时数据监控</p>
     </header>
 
-    <!-- 顶部指标：在原来基础上增加更细颗粒度 -->
+    <!-- 顶部指标（在原来的基础上增加更细颗粒度） -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-label">总发放 Total Issued</div>
@@ -314,21 +358,26 @@
         </div>
       </div>
 
-      <!-- 渠道明细 -->
+      <!-- 渠道明细 + 右侧花哨渠道卡片 -->
       <div class="card">
         <h2 class="card-title">渠道明细 Channel Breakdown</h2>
-        <table class="channel-table">
-          <thead>
-            <tr>
-              <th>渠道</th>
-              <th>发放</th>
-              <th>认领</th>
-              <th>激活</th>
-              <th>激活率</th>
-            </tr>
-          </thead>
-          <tbody id="channelTableBody"></tbody>
-        </table>
+        <div class="channel-side-wrapper" style="display:flex;align-items:flex-start;">
+          <div style="flex:1;">
+            <table class="channel-table">
+              <thead>
+                <tr>
+                  <th>渠道</th>
+                  <th>发放</th>
+                  <th>认领</th>
+                  <th>激活</th>
+                  <th>激活率</th>
+                </tr>
+              </thead>
+              <tbody id="channelTableBody"></tbody>
+            </table>
+          </div>
+          <div class="channel-side" id="channelCards"></div>
+        </div>
       </div>
 
       <!-- 波次追踪 -->
@@ -372,8 +421,6 @@
         const data = await res.json();
 
         const totals = data.totals || {};
-
-        // 顶部指标
         const issued = totals.issued || 0;
         const claimed = totals.claimed || 0;
         const activated = totals.activated || 0;
@@ -434,6 +481,37 @@
         `;
         tbody.appendChild(row);
       });
+
+      // 右侧花哨渠道卡片
+      const cardsContainer = document.getElementById('channelCards');
+      if (cardsContainer) {
+        cardsContainer.innerHTML = '';
+        const withCac = channelData.map(c => ({
+          ...c,
+          cac: c.activated ? c.cost / c.activated : null
+        }));
+        withCac.forEach(c => {
+          const rate = c.issued ? (c.activated / c.issued) * 100 : 0;
+          const cac = c.cac;
+          let tag = '';
+          if (cac != null) {
+            if (cac < 5) tag = '高性价比 · Excellent CAC';
+            else if (cac < 8) tag = '成本适中 · Good CAC';
+            else tag = '成本偏高 · 需优化';
+          }
+          const div = document.createElement('div');
+          div.className = 'channel-card';
+          div.innerHTML = `
+            <div class="channel-card-title">${c.name}</div>
+            <div class="channel-card-tagline">
+              激活率 ${rate.toFixed(1)}%
+              ${cac != null ? ` · CAC $${cac.toFixed(2)}` : ''}
+            </div>
+            ${tag ? `<span class="channel-card-pill">${tag}</span>` : ''}
+          `;
+          cardsContainer.appendChild(div);
+        });
+      }
     }
 
     function renderWaves() {
