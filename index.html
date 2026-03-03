@@ -28,34 +28,21 @@
 
     header {
       position: relative;
-      padding: 24px 28px;
-      border-radius: 20px;
+      padding: 20px 24px;
+      border-radius: 18px;
       margin-bottom: 20px;
-      background: radial-gradient(circle at top left, #4f46e5 0, #111827 45%, #020617 100%);
-      overflow: hidden;
-      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.95);
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-      gap: 16px;
+      background: linear-gradient(135deg, #4f46e5 0%, #111827 45%, #020617 100%);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.95);
+      display: flex;
       align-items: center;
-    }
-
-    /* 背景大 Banner（淡化） */
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url('/assets/donut_banner1_720.png');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.25;
-      mix-blend-mode: screen;
-      pointer-events: none;
+      justify-content: space-between;
+      gap: 16px;
+      overflow: hidden;
     }
 
     h1 {
       color: #f9fafb;
-      font-size: 26px;
+      font-size: 24px;
       margin-bottom: 6px;
     }
 
@@ -68,7 +55,7 @@
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .tag {
@@ -84,6 +71,7 @@
     .header-left {
       position: relative;
       z-index: 1;
+      max-width: 70%;
     }
 
     .header-right {
@@ -92,94 +80,46 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      min-width: 0;
     }
 
-    .hero-card {
-      position: relative;
+    .avatar-card {
+      width: 110px;
+      height: 110px;
+      border-radius: 999px;
+      padding: 6px;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,1));
+      border: 1px solid rgba(191, 219, 254, 0.8);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-inner {
       width: 100%;
-      max-width: 340px;
-      border-radius: 18px;
-      padding: 10px 12px;
-      background: radial-gradient(circle at top left, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
-      border: 1px solid rgba(129, 140, 248, 0.7);
-      box-shadow: 0 18px 40px rgba(15,23,42,1);
+      height: 100%;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, #111827, #020617);
       overflow: hidden;
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .hero-logo {
-      position: absolute;
-      top: 10px;
-      left: 12px;
-      font-size: 11px;
-      color: #a5b4fc;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .hero-metric {
-      margin-top: 18px;
-    }
-
-    .hero-metric-label {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-
-    .hero-metric-value {
-      font-size: 20px;
-      font-weight: 700;
-      color: #f9fafb;
-    }
-
-    .hero-image-wrap {
-      flex: 1;
-      display: flex;
       justify-content: center;
-      align-items: flex-end;
-      min-height: 130px;
-      position: relative;
     }
 
-    .hero-image-main {
-      width: 140px;
-      filter: drop-shadow(0 12px 30px rgba(15,23,42,1));
-      transform: translateY(0);
-      transition: transform 0.3s ease;
-    }
-
-    .hero-image-bg {
-      position: absolute;
-      left: -35px;
-      bottom: -10px;
-      width: 110px;
-      opacity: 0.35;
-      filter: blur(1px);
+    .avatar-inner img {
+      width: 120%;
+      height: auto;
+      object-fit: contain;
       transform: translateY(4px);
-      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
-    .hero-card:hover .hero-image-main {
-      transform: translateY(-6px);
-    }
-    .hero-card:hover .hero-image-bg {
-      transform: translateY(-2px);
-      opacity: 0.5;
-    }
-
-    .hero-chip {
-      position: absolute;
-      bottom: 10px;
-      left: 12px;
+    .avatar-label {
       font-size: 10px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(22, 163, 74, 0.18);
-      color: #bbf7d0;
-      border: 1px solid rgba(34, 197, 94, 0.6);
+      color: #cbd5f5;
+      text-align: center;
+      margin-top: 6px;
+      opacity: 0.9;
     }
 
     .metrics-grid {
@@ -218,7 +158,7 @@
 
     .metric-value {
       color: #f9fafb;
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 700;
     }
 
@@ -242,6 +182,12 @@
       background: rgba(22, 163, 74, 0.12);
       color: #4ade80;
       border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+
+    .metric-badge-warning {
+      background: rgba(234, 179, 8, 0.12);
+      color: #facc15;
+      border-color: rgba(234, 179, 8, 0.5);
     }
 
     .dashboard-grid {
@@ -444,7 +390,7 @@
       border: 1px solid rgba(234, 179, 8, 0.5);
     }
 
-    /* 表单分析区域样式 */
+    /* 表单分析区域 */
 
     .section-tabs {
       display: flex;
@@ -510,9 +456,14 @@
 
     @media (max-width: 900px) {
       header {
-        grid-template-columns: minmax(0, 1fr);
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .header-left {
+        max-width: 100%;
       }
       .header-right {
+        align-self: stretch;
         justify-content: flex-start;
       }
       .dashboard-grid {
@@ -536,40 +487,22 @@
           <span class="tag">来自 ru7.one / d0-launch / Skill Hunter</span>
         </div>
       </div>
-
       <div class="header-right">
-        <div class="hero-card">
-          <div class="hero-logo">DONUT · D0 LAUNCH</div>
-          <div style="flex:1; padding-top:20px;">
-            <div class="hero-metric">
-              <div class="hero-metric-label">当前激活用户数</div>
-              <div class="hero-metric-value" data-metric="total-activated">0</div>
+        <div>
+          <div class="avatar-card">
+            <div class="avatar-inner">
+              <img
+                src="/assets/cc72d603-850b-4655-bf6b-a4c870e7b502_720.png"
+                alt="D0 Mascot"
+              />
             </div>
-            <div class="hero-metric" style="margin-top:10px;">
-              <div class="hero-metric-label">今日激活趋势 · 30 天滚动</div>
-              <div class="hero-metric-value" style="font-size:14px;color:#a5b4fc;">
-                实时追踪来自 D0 Launch / Skill Hunter 的转化表现
-              </div>
-            </div>
-            <div class="hero-chip">实时监控 · Production</div>
           </div>
-          <div class="hero-image-wrap">
-            <img
-              src="/assets/b5be588d-aa36-4657-a4b6-d5021504e78c_720.png"
-              alt="D0 Character Action"
-              class="hero-image-main"
-            />
-            <img
-              src="/assets/cc72d603-850b-4655-bf6b-a4c870e7b502_720.png"
-              alt="D0 Chibi"
-              class="hero-image-bg"
-            />
-          </div>
+          <div class="avatar-label">D0 Skill Hunter · Mascot</div>
         </div>
       </div>
     </header>
 
-    <!-- 顶部整体指标 -->
+    <!-- 顶部整体指标（更细颗粒度） -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-label">总发放 Total Issued</div>
@@ -577,13 +510,11 @@
         <div class="metric-sub">所有波次累计</div>
       </div>
       <div class="metric-card">
-        <span class="metric-badge">Claim</span>
         <div class="metric-label">已认领 Claimed</div>
         <div class="metric-value" data-metric="total-claimed">0</div>
-        <div class="metric-sub metric-positive">整体认领率</div>
+        <div class="metric-sub metric-positive">认领用户数</div>
       </div>
       <div class="metric-card">
-        <span class="metric-badge">Activation</span>
         <div class="metric-label">已激活 Activated</div>
         <div class="metric-value" data-metric="total-activated">0</div>
         <div class="metric-sub metric-positive">激活用户数</div>
@@ -594,9 +525,16 @@
         <div class="metric-sub">已激活 / 总发放</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">表单总体成功率</div>
-        <div class="metric-value" data-metric="form-overall-success">0%</div>
-        <div class="metric-sub">所有表单 view → success</div>
+        <span class="metric-badge metric-badge-warning">Claim 率</span>
+        <div class="metric-label">发放 → 认领</div>
+        <div class="metric-value" data-metric="claim-rate">0%</div>
+        <div class="metric-sub">已认领 / 总发放</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-badge metric-badge-warning">激活率</span>
+        <div class="metric-label">认领 → 激活</div>
+        <div class="metric-value" data-metric="activate-from-claim">0%</div>
+        <div class="metric-sub">已激活 / 已认领</div>
       </div>
     </div>
 
@@ -769,10 +707,10 @@
           claimedEl.textContent = (totals.claimed || 0).toLocaleString();
         }
 
-        const activatedEls = document.querySelectorAll('[data-metric="total-activated"]');
-        activatedEls.forEach(el => {
-          el.textContent = (totals.activated || 0).toLocaleString();
-        });
+        const activatedEl = document.querySelector('[data-metric="total-activated"]');
+        if (activatedEl) {
+          activatedEl.textContent = (totals.activated || 0).toLocaleString();
+        }
 
         const overallRateEl = document.querySelector('[data-metric="overall-rate"]');
         if (overallRateEl) {
@@ -780,6 +718,25 @@
             ? ((totals.activated / totals.issued) * 100).toFixed(1)
             : '0.0';
           overallRateEl.textContent = overallRate + '%';
+        }
+
+        // 新增的两张颗粒度指标卡
+        const claimRateEl = document.querySelector('[data-metric="claim-rate"]');
+        if (claimRateEl) {
+          const rate = totals.issued
+            ? ((totals.claimed / totals.issued) * 100).toFixed(1)
+            : '0.0';
+          claimRateEl.textContent = rate + '%';
+        }
+
+        const activateFromClaimEl = document.querySelector(
+          '[data-metric="activate-from-claim"]'
+        );
+        if (activateFromClaimEl) {
+          const rate = totals.claimed
+            ? ((totals.activated / totals.claimed) * 100).toFixed(1)
+            : '0.0';
+          activateFromClaimEl.textContent = rate + '%';
         }
 
         channelData = data.channelData || [];
