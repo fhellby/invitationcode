@@ -15,43 +15,42 @@
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
         'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
+      background: radial-gradient(circle at top, #020617 0, #020617 35%, #020617 100%);
+      padding: 24px;
       min-height: 100vh;
+      color: #e2e8f0;
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1440px;
       margin: 0 auto;
     }
 
-    /* 花哨一点的头部：渐变 + 卡片 + Mascot */
     header {
       position: relative;
-      padding: 22px 26px;
-      border-radius: 16px;
+      padding: 24px 28px;
+      border-radius: 20px;
       margin-bottom: 20px;
-      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 40%, #111827 100%);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
+      background: radial-gradient(circle at top left, #4f46e5 0, #111827 45%, #020617 100%);
       overflow: hidden;
+      box-shadow: 0 20px 60px rgba(15, 23, 42, 0.95);
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 16px;
+      align-items: center;
     }
 
-    header::after {
+    /* 背景大 Banner（淡化） */
+    header::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at top right, rgba(255,255,255,0.16), transparent 55%);
+      background-image: url('/assets/donut_banner1_720.png');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+      mix-blend-mode: screen;
       pointer-events: none;
-    }
-
-    .header-left {
-      position: relative;
-      z-index: 1;
-      max-width: 70%;
     }
 
     h1 {
@@ -61,7 +60,7 @@
     }
 
     .subtitle {
-      color: #e5e7eb;
+      color: #cbd5f5;
       font-size: 13px;
     }
 
@@ -76,10 +75,15 @@
       font-size: 11px;
       padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15, 23, 42, 0.6);
-      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.55);
+      color: #cbd5f5;
       border: 1px solid rgba(148, 163, 184, 0.5);
       backdrop-filter: blur(6px);
+    }
+
+    .header-left {
+      position: relative;
+      z-index: 1;
     }
 
     .header-right {
@@ -87,328 +91,432 @@
       z-index: 1;
       display: flex;
       align-items: center;
-      gap: 12px;
+      justify-content: flex-end;
     }
 
-    .avatar-card {
-      width: 110px;
-      height: 110px;
-      border-radius: 999px;
-      padding: 6px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.95), rgba(15,23,42,1));
-      border: 1px solid rgba(191, 219, 254, 0.9);
-      box-shadow: 0 14px 32px rgba(15, 23, 42, 1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .avatar-inner {
+    .hero-card {
+      position: relative;
       width: 100%;
-      height: 100%;
-      border-radius: 999px;
-      background: radial-gradient(circle at top, #111827, #020617);
+      max-width: 340px;
+      border-radius: 18px;
+      padding: 10px 12px;
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.96), rgba(15,23,42,0.98));
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      box-shadow: 0 18px 40px rgba(15,23,42,1);
       overflow: hidden;
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
     }
 
-    .avatar-inner img {
-      width: 120%;
-      height: auto;
-      object-fit: contain;
-      transform: translateY(4px);
-    }
-
-    .avatar-label {
-      font-size: 10px;
-      color: #e5e7eb;
-      opacity: 0.9;
-    }
-
-    .header-kpi {
+    .hero-logo {
+      position: absolute;
+      top: 10px;
+      left: 12px;
       font-size: 11px;
-      color: #cbd5f5;
-      margin-top: 4px;
+      color: #a5b4fc;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    .header-kpi span {
-      font-weight: 600;
-      color: #facc15;
+    .hero-metric {
+      margin-top: 18px;
     }
 
-    /* 顶部指标区（和上一版一致） */
+    .hero-metric-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+
+    .hero-metric-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #f9fafb;
+    }
+
+    .hero-image-wrap {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      min-height: 130px;
+      position: relative;
+    }
+
+    .hero-image-main {
+      width: 140px;
+      filter: drop-shadow(0 12px 30px rgba(15,23,42,1));
+      transform: translateY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .hero-image-bg {
+      position: absolute;
+      left: -35px;
+      bottom: -10px;
+      width: 110px;
+      opacity: 0.35;
+      filter: blur(1px);
+      transform: translateY(4px);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .hero-card:hover .hero-image-main {
+      transform: translateY(-6px);
+    }
+    .hero-card:hover .hero-image-bg {
+      transform: translateY(-2px);
+      opacity: 0.5;
+    }
+
+    .hero-chip {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-size: 10px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.18);
+      color: #bbf7d0;
+      border: 1px solid rgba(34, 197, 94, 0.6);
+    }
+
     .metrics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
     }
 
     .metric-card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s;
+      background: radial-gradient(circle at top left, #111827 0, #020617 70%);
+      padding: 16px;
+      border-radius: 14px;
+      box-shadow: 0 12px 20px rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      position: relative;
+      overflow: hidden;
     }
 
-    .metric-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    .metric-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at top right, rgba(79, 70, 229, 0.18), transparent 55%);
+      opacity: 0.6;
+      pointer-events: none;
     }
 
     .metric-label {
-      color: #718096;
-      font-size: 13px;
-      margin-bottom: 8px;
+      color: #9ca3af;
+      font-size: 11px;
+      margin-bottom: 6px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.08em;
     }
 
     .metric-value {
-      color: #2d3748;
-      font-size: 32px;
+      color: #f9fafb;
+      font-size: 26px;
       font-weight: 700;
     }
 
     .metric-sub {
-      color: #a0aec0;
-      font-size: 12px;
+      color: #6b7280;
+      font-size: 11px;
       margin-top: 4px;
     }
 
     .metric-positive {
-      color: #48bb78;
+      color: #4ade80;
     }
 
-    .metric-negative {
-      color: #f56565;
+    .metric-badge {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(22, 163, 74, 0.12);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.35);
     }
 
     .dashboard-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 20px;
+      grid-template-columns: 2.2fr 1.2fr;
+      gap: 16px;
       margin-bottom: 20px;
     }
 
     .card {
-      background: rgba(255, 255, 255, 0.95);
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: #020617;
+      padding: 18px;
+      border-radius: 14px;
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(30, 64, 175, 0.45);
+    }
+
+    .card-ghost {
+      background: radial-gradient(circle at top, #020617 0, #000 70%);
+      border: 1px solid rgba(148, 163, 184, 0.3);
+    }
+
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
     }
 
     .card-title {
-      font-size: 18px;
+      font-size: 15px;
       font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #e2e8f0;
+      color: #e5e7eb;
+    }
+
+    .card-subtitle {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .badge-muted {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      color: #9ca3af;
+      background: rgba(17, 24, 39, 0.8);
     }
 
     .chart-container {
       position: relative;
-      height: 300px;
+      height: 260px;
     }
 
     .channel-table {
       width: 100%;
       border-collapse: collapse;
+      font-size: 12px;
     }
 
     .channel-table th {
-      background: #f7fafc;
-      padding: 12px;
+      background: #020617;
+      padding: 8px 6px;
       text-align: left;
-      font-size: 12px;
-      color: #718096;
+      font-size: 11px;
+      color: #6b7280;
       font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
     }
 
     .channel-table td {
-      padding: 12px;
-      border-top: 1px solid #e2e8f0;
-      font-size: 14px;
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+      color: #e5e7eb;
     }
 
     .channel-name {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 500;
+      color: #e5e7eb;
+    }
+
+    .channel-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(59, 130, 246, 0.12);
+      color: #93c5fd;
+      border: 1px solid rgba(37, 99, 235, 0.4);
     }
 
     .progress-bar {
-      background: #e2e8f0;
-      height: 8px;
-      border-radius: 4px;
+      background: #111827;
+      height: 6px;
+      border-radius: 999px;
       overflow: hidden;
       margin-top: 4px;
     }
 
     .progress-fill {
       height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
+      background: linear-gradient(90deg, #4f46e5, #a855f7);
       transition: width 0.3s ease;
     }
 
     .wave-card {
-      background: #f7fafc;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 12px;
-      border-left: 4px solid #667eea;
+      background: radial-gradient(circle at top left, #020617 0, #020617 70%);
+      padding: 10px 12px;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
     }
 
     .wave-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .wave-name {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 500;
+      color: #e5e7eb;
+      font-size: 13px;
     }
 
     .wave-status {
-      font-size: 12px;
-      padding: 4px 8px;
-      border-radius: 12px;
-      background: #48bb78;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #16a34a;
       color: white;
     }
 
     .wave-status.in-progress {
-      background: #ed8936;
+      background: #ea580c;
     }
 
     .wave-status.pending {
-      background: #cbd5e0;
-      color: #4a5568;
+      background: #4b5563;
+      color: #e5e7eb;
     }
 
     .wave-stats {
-      font-size: 13px;
-      color: #718096;
-      margin-bottom: 8px;
-    }
-
-    .full-width {
-      grid-column: 1 / -1;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 6px;
     }
 
     .roi-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
     }
 
     .roi-item {
-      background: #f7fafc;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
+      background: #020617;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      text-align: left;
     }
 
     .roi-channel {
-      font-size: 12px;
-      color: #718096;
-      margin-bottom: 8px;
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
     }
 
     .roi-cac {
-      font-size: 24px;
+      font-size: 18px;
       font-weight: 700;
-      color: #2d3748;
+      color: #e5e7eb;
     }
 
     .roi-efficiency {
       font-size: 11px;
       margin-top: 4px;
-      padding: 2px 6px;
-      border-radius: 8px;
+      padding: 2px 8px;
+      border-radius: 999px;
       display: inline-block;
     }
 
     .roi-excellent {
-      background: #c6f6d5;
-      color: #22543d;
+      background: rgba(22, 163, 74, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.5);
     }
 
     .roi-good {
-      background: #bee3f8;
-      color: #2c5282;
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.5);
     }
 
     .roi-average {
-      background: #feebc8;
-      color: #7c2d12;
+      background: rgba(248, 250, 252, 0.04);
+      color: #fbbf24;
+      border: 1px solid rgba(234, 179, 8, 0.5);
     }
 
-    /* 右侧渠道卡片 */
-    .channel-side {
-      width: 240px;
-      margin-left: 12px;
+    /* 表单分析区域样式 */
+
+    .section-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
-    .channel-card {
-      background: #f7fafc;
-      border-radius: 8px;
-      padding: 10px 12px;
-      border: 1px solid #e2e8f0;
-      margin-bottom: 10px;
-    }
-
-    .channel-card-title {
-      font-size: 13px;
-      font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 4px;
-    }
-
-    .channel-card-tagline {
-      font-size: 11px;
-      color: #718096;
-      margin-bottom: 4px;
-    }
-
-    .channel-card-pill {
-      display: inline-block;
-      font-size: 10px;
-      padding: 2px 6px;
+    .section-tab {
+      font-size: 12px;
+      padding: 6px 12px;
       border-radius: 999px;
-      background: #edf2ff;
-      color: #4c51bf;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: #9ca3af;
+      cursor: pointer;
     }
 
-    @media (max-width: 768px) {
+    .section-tab.active {
+      background: linear-gradient(90deg, #4f46e5, #7c3aed);
+      color: #f9fafb;
+      border-color: transparent;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .form-table th {
+      background: #020617;
+      padding: 8px 6px;
+      text-align: left;
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .form-table td {
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+      color: #e5e7eb;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(31, 41, 55, 0.9);
+      color: #9ca3af;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .pill-primary {
+      background: rgba(59, 130, 246, 0.16);
+      color: #bfdbfe;
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 900px) {
       header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .header-left {
-        max-width: 100%;
+        grid-template-columns: minmax(0, 1fr);
       }
       .header-right {
-        align-self: stretch;
         justify-content: flex-start;
       }
       .dashboard-grid {
         grid-template-columns: 1fr;
-      }
-      .channel-side {
-        width: 100%;
-        margin-left: 0;
-        margin-top: 12px;
-      }
-      .channel-side-wrapper {
-        flex-direction: column;
       }
     }
   </style>
@@ -417,31 +525,51 @@
   <div class="container">
     <header>
       <div class="header-left">
-        <h1>🍩 Donut 邀请码分析仪表板</h1>
-        <p class="subtitle">Invitation Code Analytics Dashboard · 实时数据监控</p>
+        <h1>🍩 Donut 邀请码 & 表单分析仪表板</h1>
+        <p class="subtitle">Invitation + Form Analytics · 实时漏斗监控</p>
         <div class="tag-row">
           <span class="tag">邀请码渠道投放</span>
           <span class="tag">表单行为追踪</span>
           <span class="tag">多页面统一埋点</span>
         </div>
-        <p class="header-kpi">
-          当前激活用户：<span data-metric="total-activated">0</span> ·
-          整体激活率：<span data-metric="overall-rate">0%</span>
-        </p>
+        <div class="tag-row">
+          <span class="tag">来自 ru7.one / d0-launch / Skill Hunter</span>
+        </div>
       </div>
+
       <div class="header-right">
-        <div>
-          <div class="avatar-card">
-            <div class="avatar-inner">
-              <img src="/assets/cc72d603-850b-4655-bf6b-a4c870e7b502_720.png" alt="D0 Mascot" />
+        <div class="hero-card">
+          <div class="hero-logo">DONUT · D0 LAUNCH</div>
+          <div style="flex:1; padding-top:20px;">
+            <div class="hero-metric">
+              <div class="hero-metric-label">当前激活用户数</div>
+              <div class="hero-metric-value" data-metric="total-activated">0</div>
             </div>
+            <div class="hero-metric" style="margin-top:10px;">
+              <div class="hero-metric-label">今日激活趋势 · 30 天滚动</div>
+              <div class="hero-metric-value" style="font-size:14px;color:#a5b4fc;">
+                实时追踪来自 D0 Launch / Skill Hunter 的转化表现
+              </div>
+            </div>
+            <div class="hero-chip">实时监控 · Production</div>
           </div>
-          <div class="avatar-label">D0 Skill Hunter · Mascot</div>
+          <div class="hero-image-wrap">
+            <img
+              src="/assets/b5be588d-aa36-4657-a4b6-d5021504e78c_720.png"
+              alt="D0 Character Action"
+              class="hero-image-main"
+            />
+            <img
+              src="/assets/cc72d603-850b-4655-bf6b-a4c870e7b502_720.png"
+              alt="D0 Chibi"
+              class="hero-image-bg"
+            />
+          </div>
         </div>
       </div>
     </header>
 
-    <!-- 顶部指标 -->
+    <!-- 顶部整体指标 -->
     <div class="metrics-grid">
       <div class="metric-card">
         <div class="metric-label">总发放 Total Issued</div>
@@ -449,11 +577,13 @@
         <div class="metric-sub">所有波次累计</div>
       </div>
       <div class="metric-card">
+        <span class="metric-badge">Claim</span>
         <div class="metric-label">已认领 Claimed</div>
         <div class="metric-value" data-metric="total-claimed">0</div>
-        <div class="metric-sub metric-positive">认领用户数</div>
+        <div class="metric-sub metric-positive">整体认领率</div>
       </div>
       <div class="metric-card">
+        <span class="metric-badge">Activation</span>
         <div class="metric-label">已激活 Activated</div>
         <div class="metric-value" data-metric="total-activated">0</div>
         <div class="metric-sub metric-positive">激活用户数</div>
@@ -464,75 +594,152 @@
         <div class="metric-sub">已激活 / 总发放</div>
       </div>
       <div class="metric-card">
-        <div class="metric-label">发放 → 认领率</div>
-        <div class="metric-value" data-metric="claim-rate">0%</div>
-        <div class="metric-sub">已认领 / 总发放</div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-label">认领 → 激活率</div>
-        <div class="metric-value" data-metric="activate-from-claim">0%</div>
-        <div class="metric-sub">已激活 / 已认领</div>
+        <div class="metric-label">表单总体成功率</div>
+        <div class="metric-value" data-metric="form-overall-success">0%</div>
+        <div class="metric-sub">所有表单 view → success</div>
       </div>
     </div>
 
-    <!-- 主仪表盘 -->
+    <!-- 邀请码部分 Dashboard -->
     <div class="dashboard-grid">
-      <!-- 每日激活趋势 -->
-      <div class="card full-width">
-        <h2 class="card-title">每日激活趋势 Daily Activations</h2>
+      <!-- 左边大图 -->
+      <div class="card card-ghost">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">每日激活趋势 Daily Activations</div>
+            <div class="card-subtitle">按天统计邀请码激活数</div>
+          </div>
+          <span class="badge-muted">Rolling 30 days</span>
+        </div>
         <div class="chart-container">
           <canvas id="dailyChart"></canvas>
         </div>
       </div>
 
-      <!-- 渠道明细 + 右侧渠道卡片 -->
+      <!-- 右边渠道 + 波次 -->
       <div class="card">
-        <h2 class="card-title">渠道明细 Channel Breakdown</h2>
-        <div class="channel-side-wrapper" style="display:flex;align-items:flex-start;">
-          <div style="flex:1;">
-            <table class="channel-table">
-              <thead>
-                <tr>
-                  <th>渠道</th>
-                  <th>发放</th>
-                  <th>认领</th>
-                  <th>激活</th>
-                  <th>激活率</th>
-                </tr>
-              </thead>
-              <tbody id="channelTableBody"></tbody>
-            </table>
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">渠道明细 Channel Breakdown</div>
+            <div class="card-subtitle">不同投放渠道的发放 / 激活</div>
           </div>
-          <div class="channel-side" id="channelCards"></div>
+        </div>
+        <table class="channel-table" style="margin-bottom:10px;">
+          <thead>
+            <tr>
+              <th>渠道</th>
+              <th>发放</th>
+              <th>认领</th>
+              <th>激活</th>
+              <th>激活率</th>
+            </tr>
+          </thead>
+          <tbody id="channelTableBody"></tbody>
+        </table>
+
+        <div style="margin-top:10px;">
+          <div class="card-subtitle" style="margin-bottom:6px;">波次追踪 Wave Tracking</div>
+          <div id="waveContainer"></div>
         </div>
       </div>
+    </div>
 
-      <!-- 波次追踪 -->
+    <!-- ROI + 渠道饼图 + 漏斗 -->
+    <div class="dashboard-grid">
       <div class="card">
-        <h2 class="card-title">波次追踪 Wave Tracking</h2>
-        <div id="waveContainer"></div>
-      </div>
-
-      <!-- ROI & CAC -->
-      <div class="card full-width">
-        <h2 class="card-title">ROI 分析 - 各渠道获客成本 (CAC)</h2>
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">ROI 分析 - 各渠道 CAC</div>
+            <div class="card-subtitle">不同渠道单用户获客成本</div>
+          </div>
+        </div>
         <div class="roi-grid" id="roiGrid"></div>
       </div>
 
-      <!-- 渠道分布 -->
       <div class="card">
-        <h2 class="card-title">渠道分布 Channel Distribution</h2>
-        <div class="chart-container">
+        <div class="chart-container" style="height:120px;margin-bottom:12px;">
+          <div class="card-title-row" style="margin-bottom:8px;">
+            <div class="card-title">渠道分布 Channel Distribution</div>
+          </div>
           <canvas id="channelChart"></canvas>
+        </div>
+        <div class="chart-container" style="height:120px;">
+          <div class="card-title-row" style="margin-bottom:8px;">
+            <div class="card-title">激活漏斗 Activation Funnel</div>
+          </div>
+          <canvas id="funnelChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 表单分析区域 -->
+    <div class="card card-ghost" style="margin-top:12px;">
+      <div class="card-title-row">
+        <div>
+          <div class="card-title">表单转化分析 Form Analytics</div>
+          <div class="card-subtitle">
+            结合 ru7 / d0-launch / Skill Hunter 等表单的全链路漏斗
+          </div>
         </div>
       </div>
 
-      <!-- 激活漏斗 -->
-      <div class="card">
-        <h2 class="card-title">激活漏斗 Activation Funnel</h2>
-        <div class="chart-container">
-          <canvas id="funnelChart"></canvas>
-        </div>
+      <div class="section-tabs">
+        <button class="section-tab active" id="tab-funnel">整体表单漏斗</button>
+        <button class="section-tab" id="tab-channel">表单 × 渠道</button>
+        <button class="section-tab" id="tab-steps">步骤流失</button>
+      </div>
+
+      <!-- 整体表单漏斗 -->
+      <div id="panel-funnel">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单 Form</th>
+              <th>View</th>
+              <th>Start</th>
+              <th>Submit</th>
+              <th>Success</th>
+              <th>总成功率</th>
+              <th>View→Start</th>
+              <th>Start→Submit</th>
+              <th>Submit→Success</th>
+            </tr>
+          </thead>
+          <tbody id="formFunnelBody"></tbody>
+        </table>
+      </div>
+
+      <!-- 表单 × 渠道 -->
+      <div id="panel-channel" style="display:none;">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单</th>
+              <th>渠道</th>
+              <th>View</th>
+              <th>Start</th>
+              <th>Submit</th>
+              <th>Success</th>
+              <th>成功率</th>
+            </tr>
+          </thead>
+          <tbody id="formChannelBody"></tbody>
+        </table>
+      </div>
+
+      <!-- 步骤流失 -->
+      <div id="panel-steps" style="display:none;">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单</th>
+              <th>步骤 Step</th>
+              <th>Next 次数</th>
+              <th>Fail 次数</th>
+            </tr>
+          </thead>
+          <tbody id="formStepBody"></tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -541,6 +748,9 @@
     let channelData = [];
     let waveData = [];
     let dailyData = { labels: [], activations: [] };
+    let formFunnels = [];
+    let formChannelBreakdown = [];
+    let formStepDropoff = [];
 
     async function loadDashboardData() {
       try {
@@ -548,41 +758,54 @@
         const data = await res.json();
 
         const totals = data.totals || {};
-        const issued = totals.issued || 0;
-        const claimed = totals.claimed || 0;
-        const activated = totals.activated || 0;
 
-        document.querySelector('[data-metric="total-issued"]').textContent =
-          issued.toLocaleString();
-        document.querySelector('[data-metric="total-claimed"]').textContent =
-          claimed.toLocaleString();
-        document.querySelectorAll('[data-metric="total-activated"]').forEach(el => {
-          el.textContent = activated.toLocaleString();
+        const issuedEl = document.querySelector('[data-metric="total-issued"]');
+        if (issuedEl) {
+          issuedEl.textContent = (totals.issued || 0).toLocaleString();
+        }
+
+        const claimedEl = document.querySelector('[data-metric="total-claimed"]');
+        if (claimedEl) {
+          claimedEl.textContent = (totals.claimed || 0).toLocaleString();
+        }
+
+        const activatedEls = document.querySelectorAll('[data-metric="total-activated"]');
+        activatedEls.forEach(el => {
+          el.textContent = (totals.activated || 0).toLocaleString();
         });
 
-        const overallRate = issued ? ((activated / issued) * 100).toFixed(1) : '0.0';
-        document.querySelectorAll('[data-metric="overall-rate"]').forEach(el => {
-          el.textContent = overallRate + '%';
-        });
-
-        const claimRate = issued ? ((claimed / issued) * 100).toFixed(1) : '0.0';
-        document.querySelector('[data-metric="claim-rate"]').textContent =
-          claimRate + '%';
-
-        const activateFromClaim = claimed
-          ? ((activated / claimed) * 100).toFixed(1)
-          : '0.0';
-        document.querySelector('[data-metric="activate-from-claim"]').textContent =
-          activateFromClaim + '%';
+        const overallRateEl = document.querySelector('[data-metric="overall-rate"]');
+        if (overallRateEl) {
+          const overallRate = totals.issued
+            ? ((totals.activated / totals.issued) * 100).toFixed(1)
+            : '0.0';
+          overallRateEl.textContent = overallRate + '%';
+        }
 
         channelData = data.channelData || [];
         waveData = data.waveData || [];
         dailyData = data.dailyData || { labels: [], activations: [] };
+        formFunnels = data.formFunnels || [];
+        formChannelBreakdown = data.formChannelBreakdown || [];
+        formStepDropoff = data.formStepDropoff || [];
+
+        const formOverallSuccessEl = document.querySelector(
+          '[data-metric="form-overall-success"]'
+        );
+        if (formOverallSuccessEl && formFunnels.length > 0) {
+          const totalViews = formFunnels.reduce((s, f) => s + f.views, 0);
+          const totalSucc = formFunnels.reduce((s, f) => s + f.successes, 0);
+          const rate = totalViews ? ((totalSucc / totalViews) * 100).toFixed(1) : '0.0';
+          formOverallSuccessEl.textContent = rate + '%';
+        }
 
         renderChannelTable();
         renderWaves();
         renderROI();
         renderCharts();
+        renderFormFunnels();
+        renderFormChannel();
+        renderFormSteps();
       } catch (e) {
         console.error('loadDashboardData error', e);
       }
@@ -597,7 +820,9 @@
           : '0.0';
         const row = document.createElement('tr');
         row.innerHTML = `
-          <td class="channel-name">${channel.name}</td>
+          <td class="channel-name">
+            <span class="channel-pill">${channel.name}</span>
+          </td>
           <td>${channel.issued.toLocaleString()}</td>
           <td>${channel.claimed.toLocaleString()}</td>
           <td>${channel.activated.toLocaleString()}</td>
@@ -610,37 +835,6 @@
         `;
         tbody.appendChild(row);
       });
-
-      // 右侧花哨渠道卡片
-      const cardsContainer = document.getElementById('channelCards');
-      if (cardsContainer) {
-        cardsContainer.innerHTML = '';
-        const withCac = channelData.map(c => ({
-          ...c,
-          cac: c.activated ? c.cost / c.activated : null
-        }));
-        withCac.forEach(c => {
-          const rate = c.issued ? (c.activated / c.issued) * 100 : 0;
-          const cac = c.cac;
-          let tag = '';
-          if (cac != null) {
-            if (cac < 5) tag = '高性价比 · Excellent CAC';
-            else if (cac < 8) tag = '成本适中 · Good CAC';
-            else tag = '成本偏高 · 需优化';
-          }
-          const div = document.createElement('div');
-          div.className = 'channel-card';
-          div.innerHTML = `
-            <div class="channel-card-title">${c.name}</div>
-            <div class="channel-card-tagline">
-              激活率 ${rate.toFixed(1)}%
-              ${cac != null ? ` · CAC $${cac.toFixed(2)}` : ''}
-            </div>
-            ${tag ? `<span class="channel-card-pill">${tag}</span>` : ''}
-          `;
-          cardsContainer.appendChild(div);
-        });
-      }
     }
 
     function renderWaves() {
@@ -716,8 +910,8 @@
             {
               label: '每日激活数',
               data: dailyData.activations,
-              borderColor: '#667eea',
-              backgroundColor: 'rgba(102, 126, 234, 0.1)',
+              borderColor: '#6366f1',
+              backgroundColor: 'rgba(79, 70, 229, 0.15)',
               tension: 0.4,
               fill: true
             }
@@ -726,11 +920,17 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
+          plugins: { legend: { display: false } },
           scales: {
-            y: { beginAtZero: true }
+            x: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            }
           }
         }
       });
@@ -743,7 +943,8 @@
           datasets: [
             {
               data: channelData.map((c) => c.activated),
-              backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']
+              backgroundColor: ['#4f46e5', '#7c3aed', '#f97316', '#22c55e', '#06b6d4'],
+              borderWidth: 0
             }
           ]
         },
@@ -751,7 +952,10 @@
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-            legend: { position: 'bottom' }
+            legend: {
+              position: 'bottom',
+              labels: { color: '#9ca3af', font: { size: 11 } }
+            }
           }
         }
       });
@@ -769,7 +973,8 @@
             {
               label: '用户数',
               data: [totalIssued, totalClaimed, totalActivated],
-              backgroundColor: ['#667eea', '#764ba2', '#f093fb']
+              backgroundColor: ['#4f46e5', '#7c3aed', '#f97316'],
+              borderWidth: 0
             }
           ]
         },
@@ -779,12 +984,112 @@
           maintainAspectRatio: false,
           plugins: {
             legend: { display: false }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            },
+            y: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            }
           }
         }
       });
     }
 
-    window.addEventListener('load', loadDashboardData);
+    function renderFormFunnels() {
+      const tbody = document.getElementById('formFunnelBody');
+      tbody.innerHTML = '';
+      formFunnels.forEach((f) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill pill-primary">${f.formId}</span></td>
+          <td>${f.views}</td>
+          <td>${f.starts}</td>
+          <td>${f.submits}</td>
+          <td>${f.successes}</td>
+          <td>${f.totalSuccessRate.toFixed(1)}%</td>
+          <td>${f.viewToStartRate.toFixed(1)}%</td>
+          <td>${f.startToSubmitRate.toFixed(1)}%</td>
+          <td>${f.submitToSuccessRate.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderFormChannel() {
+      const tbody = document.getElementById('formChannelBody');
+      tbody.innerHTML = '';
+      formChannelBreakdown.forEach((r) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill">${r.formId}</span></td>
+          <td><span class="pill pill-primary">${r.channel}</span></td>
+          <td>${r.views}</td>
+          <td>${r.starts}</td>
+          <td>${r.submits}</td>
+          <td>${r.successes}</td>
+          <td>${r.successRate.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderFormSteps() {
+      const tbody = document.getElementById('formStepBody');
+      tbody.innerHTML = '';
+      formStepDropoff.forEach((r) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill">${r.formId}</span></td>
+          <td>Step ${r.step}</td>
+          <td>${r.nexts}</td>
+          <td>${r.fails}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // tabs 切换
+    function setupTabs() {
+      const tabFunnel = document.getElementById('tab-funnel');
+      const tabChannel = document.getElementById('tab-channel');
+      const tabSteps = document.getElementById('tab-steps');
+      const panelFunnel = document.getElementById('panel-funnel');
+      const panelChannel = document.getElementById('panel-channel');
+      const panelSteps = document.getElementById('panel-steps');
+
+      function activate(tab) {
+        tabFunnel.classList.remove('active');
+        tabChannel.classList.remove('active');
+        tabSteps.classList.remove('active');
+        panelFunnel.style.display = 'none';
+        panelChannel.style.display = 'none';
+        panelSteps.style.display = 'none';
+
+        if (tab === 'funnel') {
+          tabFunnel.classList.add('active');
+          panelFunnel.style.display = '';
+        } else if (tab === 'channel') {
+          tabChannel.classList.add('active');
+          panelChannel.style.display = '';
+        } else {
+          tabSteps.classList.add('active');
+          panelSteps.style.display = '';
+        }
+      }
+
+      tabFunnel.addEventListener('click', () => activate('funnel'));
+      tabChannel.addEventListener('click', () => activate('channel'));
+      tabSteps.addEventListener('click', () => activate('steps'));
+    }
+
+    window.addEventListener('load', () => {
+      setupTabs();
+      loadDashboardData();
+    });
   </script>
 </body>
 </html>
