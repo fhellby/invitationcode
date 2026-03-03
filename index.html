@@ -321,4 +321,620 @@
     }
 
     .roi-average {
-      background: rgba(248,
+      background: rgba(248, 250, 252, 0.04);
+      color: #fbbf24;
+      border: 1px solid rgba(234, 179, 8, 0.5);
+    }
+
+    /* 表单分析区域样式 */
+
+    .section-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .section-tab {
+      font-size: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #1e293b;
+      background: #020617;
+      color: #9ca3af;
+      cursor: pointer;
+    }
+
+    .section-tab.active {
+      background: linear-gradient(90deg, #4f46e5, #7c3aed);
+      color: #f9fafb;
+      border-color: transparent;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .form-table th {
+      background: #020617;
+      padding: 8px 6px;
+      text-align: left;
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+    }
+
+    .form-table td {
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.85);
+      color: #e5e7eb;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(31, 41, 55, 0.9);
+      color: #9ca3af;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+    }
+
+    .pill-primary {
+      background: rgba(59, 130, 246, 0.16);
+      color: #bfdbfe;
+      border-color: rgba(59, 130, 246, 0.6);
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>🍩 Donut 邀请码 & 表单分析仪表板</h1>
+        <p class="subtitle">Invitation + Form Analytics · 实时漏斗监控</p>
+        <div class="tag-row" style="margin-top:8px;">
+          <span class="tag">邀请码渠道投放</span>
+          <span class="tag">表单行为追踪</span>
+          <span class="tag">多页面统一埋点</span>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">来自 ru7.one / d0-launch / Skill Hunter</span>
+      </div>
+    </header>
+
+    <!-- 顶部整体指标 -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">总发放 Total Issued</div>
+        <div class="metric-value" data-metric="total-issued">0</div>
+        <div class="metric-sub">所有波次累计</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-badge">Claim</span>
+        <div class="metric-label">已认领 Claimed</div>
+        <div class="metric-value" data-metric="total-claimed">0</div>
+        <div class="metric-sub metric-positive">整体认领率</div>
+      </div>
+      <div class="metric-card">
+        <span class="metric-badge">Activation</span>
+        <div class="metric-label">已激活 Activated</div>
+        <div class="metric-value" data-metric="total-activated">0</div>
+        <div class="metric-sub metric-positive">激活用户数</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">整体激活率</div>
+        <div class="metric-value" data-metric="overall-rate">0%</div>
+        <div class="metric-sub">已激活 / 总发放</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">表单总体成功率</div>
+        <div class="metric-value" data-metric="form-overall-success">0%</div>
+        <div class="metric-sub">所有表单 view → success</div>
+      </div>
+    </div>
+
+    <!-- 邀请码部分 Dashboard -->
+    <div class="dashboard-grid">
+      <!-- 左边大图 -->
+      <div class="card card-ghost">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">每日激活趋势 Daily Activations</div>
+            <div class="card-subtitle">按天统计邀请码激活数</div>
+          </div>
+          <span class="badge-muted">Rolling 30 days</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="dailyChart"></canvas>
+        </div>
+      </div>
+
+      <!-- 右边渠道 + 波次 + ROI -->
+      <div class="card">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">渠道明细 Channel Breakdown</div>
+            <div class="card-subtitle">不同投放渠道的发放 / 激活</div>
+          </div>
+        </div>
+        <table class="channel-table" style="margin-bottom:10px;">
+          <thead>
+            <tr>
+              <th>渠道</th>
+              <th>发放</th>
+              <th>认领</th>
+              <th>激活</th>
+              <th>激活率</th>
+            </tr>
+          </thead>
+          <tbody id="channelTableBody"></tbody>
+        </table>
+
+        <div style="margin-top:10px;">
+          <div class="card-subtitle" style="margin-bottom:6px;">波次追踪 Wave Tracking</div>
+          <div id="waveContainer"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROI + 渠道饼图 + 漏斗 -->
+    <div class="dashboard-grid">
+      <div class="card">
+        <div class="card-title-row">
+          <div>
+            <div class="card-title">ROI 分析 - 各渠道 CAC</div>
+            <div class="card-subtitle">不同渠道单用户获客成本</div>
+          </div>
+        </div>
+        <div class="roi-grid" id="roiGrid"></div>
+      </div>
+
+      <div class="card">
+        <div class="chart-container" style="height:120px;margin-bottom:12px;">
+          <div class="card-title-row" style="margin-bottom:8px;">
+            <div class="card-title">渠道分布 Channel Distribution</div>
+          </div>
+          <canvas id="channelChart"></canvas>
+        </div>
+        <div class="chart-container" style="height:120px;">
+          <div class="card-title-row" style="margin-bottom:8px;">
+            <div class="card-title">激活漏斗 Activation Funnel</div>
+          </div>
+          <canvas id="funnelChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 表单分析区域 -->
+    <div class="card card-ghost" style="margin-top:12px;">
+      <div class="card-title-row">
+        <div>
+          <div class="card-title">表单转化分析 Form Analytics</div>
+          <div class="card-subtitle">
+            结合 ru7 / d0-launch / Skill Hunter 等表单的全链路漏斗
+          </div>
+        </div>
+      </div>
+
+      <div class="section-tabs">
+        <button class="section-tab active" id="tab-funnel">整体表单漏斗</button>
+        <button class="section-tab" id="tab-channel">表单 × 渠道</button>
+        <button class="section-tab" id="tab-steps">步骤流失</button>
+      </div>
+
+      <!-- 整体表单漏斗 -->
+      <div id="panel-funnel">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单 Form</th>
+              <th>View</th>
+              <th>Start</th>
+              <th>Submit</th>
+              <th>Success</th>
+              <th>总成功率</th>
+              <th>View→Start</th>
+              <th>Start→Submit</th>
+              <th>Submit→Success</th>
+            </tr>
+          </thead>
+          <tbody id="formFunnelBody"></tbody>
+        </table>
+      </div>
+
+      <!-- 表单 × 渠道 -->
+      <div id="panel-channel" style="display:none;">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单</th>
+              <th>渠道</th>
+              <th>View</th>
+              <th>Start</th>
+              <th>Submit</th>
+              <th>Success</th>
+              <th>成功率</th>
+            </tr>
+          </thead>
+          <tbody id="formChannelBody"></tbody>
+        </table>
+      </div>
+
+      <!-- 步骤流失 -->
+      <div id="panel-steps" style="display:none;">
+        <table class="form-table">
+          <thead>
+            <tr>
+              <th>表单</th>
+              <th>步骤 Step</th>
+              <th>Next 次数</th>
+              <th>Fail 次数</th>
+            </tr>
+          </thead>
+          <tbody id="formStepBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let channelData = [];
+    let waveData = [];
+    let dailyData = { labels: [], activations: [] };
+    let formFunnels = [];
+    let formChannelBreakdown = [];
+    let formStepDropoff = [];
+
+    async function loadDashboardData() {
+      try {
+        const res = await fetch('/api/dashboard');
+        const data = await res.json();
+
+        const totals = data.totals || {};
+
+        const issuedEl = document.querySelector('[data-metric="total-issued"]');
+        if (issuedEl) {
+          issuedEl.textContent = (totals.issued || 0).toLocaleString();
+        }
+
+        const claimedEl = document.querySelector('[data-metric="total-claimed"]');
+        if (claimedEl) {
+          claimedEl.textContent = (totals.claimed || 0).toLocaleString();
+        }
+
+        const activatedEl = document.querySelector('[data-metric="total-activated"]');
+        if (activatedEl) {
+          activatedEl.textContent = (totals.activated || 0).toLocaleString();
+        }
+
+        const overallRateEl = document.querySelector('[data-metric="overall-rate"]');
+        if (overallRateEl) {
+          const overallRate = totals.issued
+            ? ((totals.activated / totals.issued) * 100).toFixed(1)
+            : '0.0';
+          overallRateEl.textContent = overallRate + '%';
+        }
+
+        channelData = data.channelData || [];
+        waveData = data.waveData || [];
+        dailyData = data.dailyData || { labels: [], activations: [] };
+        formFunnels = data.formFunnels || [];
+        formChannelBreakdown = data.formChannelBreakdown || [];
+        formStepDropoff = data.formStepDropoff || [];
+
+        const formOverallSuccessEl = document.querySelector(
+          '[data-metric="form-overall-success"]'
+        );
+        if (formOverallSuccessEl && formFunnels.length > 0) {
+          const totalViews = formFunnels.reduce((s, f) => s + f.views, 0);
+          const totalSucc = formFunnels.reduce((s, f) => s + f.successes, 0);
+          const rate = totalViews ? ((totalSucc / totalViews) * 100).toFixed(1) : '0.0';
+          formOverallSuccessEl.textContent = rate + '%';
+        }
+
+        renderChannelTable();
+        renderWaves();
+        renderROI();
+        renderCharts();
+        renderFormFunnels();
+        renderFormChannel();
+        renderFormSteps();
+      } catch (e) {
+        console.error('loadDashboardData error', e);
+      }
+    }
+
+    function renderChannelTable() {
+      const tbody = document.getElementById('channelTableBody');
+      tbody.innerHTML = '';
+      channelData.forEach((channel) => {
+        const activationRate = channel.issued
+          ? ((channel.activated / channel.issued) * 100).toFixed(1)
+          : '0.0';
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="channel-name">
+            <span class="channel-pill">${channel.name}</span>
+          </td>
+          <td>${channel.issued.toLocaleString()}</td>
+          <td>${channel.claimed.toLocaleString()}</td>
+          <td>${channel.activated.toLocaleString()}</td>
+          <td>
+            <strong>${activationRate}%</strong>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${activationRate}%"></div>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderWaves() {
+      const container = document.getElementById('waveContainer');
+      container.innerHTML = '';
+      waveData.forEach((wave) => {
+        const progress = wave.issued
+          ? ((wave.activated / wave.issued) * 100).toFixed(1)
+          : '0.0';
+        const statusClass =
+          wave.status === 'completed'
+            ? ''
+            : wave.status === 'in-progress'
+            ? 'in-progress'
+            : 'pending';
+        const statusText =
+          wave.status === 'completed'
+            ? '已完成'
+            : wave.status === 'in-progress'
+            ? '进行中'
+            : '待发放';
+
+        const card = document.createElement('div');
+        card.className = 'wave-card';
+        card.innerHTML = `
+          <div class="wave-header">
+            <span class="wave-name">${wave.name}</span>
+            <span class="wave-status ${statusClass}">${statusText}</span>
+          </div>
+          <div class="wave-stats">
+            目标: ${wave.range} | 已发放: ${wave.issued.toLocaleString()} |
+            激活: ${wave.activated.toLocaleString()} (${progress}%)
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${progress}%"></div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderROI() {
+      const grid = document.getElementById('roiGrid');
+      grid.innerHTML = '';
+      channelData.forEach((channel) => {
+        const cac = channel.activated
+          ? (channel.cost / channel.activated).toFixed(2)
+          : '0.00';
+        const numCac = parseFloat(cac);
+        const efficiencyClass =
+          numCac < 5 ? 'roi-excellent' : numCac < 8 ? 'roi-good' : 'roi-average';
+        const efficiencyText =
+          numCac < 5 ? '优秀' : numCac < 8 ? '良好' : '一般';
+
+        const item = document.createElement('div');
+        item.className = 'roi-item';
+        item.innerHTML = `
+          <div class="roi-channel">${channel.name}</div>
+          <div class="roi-cac">$${cac}</div>
+          <div class="roi-efficiency ${efficiencyClass}">${efficiencyText}</div>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function renderCharts() {
+      const dailyCtx = document.getElementById('dailyChart').getContext('2d');
+      new Chart(dailyCtx, {
+        type: 'line',
+        data: {
+          labels: dailyData.labels,
+          datasets: [
+            {
+              label: '每日激活数',
+              data: dailyData.activations,
+              borderColor: '#6366f1',
+              backgroundColor: 'rgba(79, 70, 229, 0.15)',
+              tension: 0.4,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: {
+            x: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            },
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            }
+          }
+        }
+      });
+
+      const channelCtx = document.getElementById('channelChart').getContext('2d');
+      new Chart(channelCtx, {
+        type: 'doughnut',
+        data: {
+          labels: channelData.map((c) => c.name),
+          datasets: [
+            {
+              data: channelData.map((c) => c.activated),
+              backgroundColor: ['#4f46e5', '#7c3aed', '#f97316', '#22c55e', '#06b6d4'],
+              borderWidth: 0
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: { color: '#9ca3af', font: { size: 11 } }
+            }
+          }
+        }
+      });
+
+      const funnelCtx = document.getElementById('funnelChart').getContext('2d');
+      const totalIssued = channelData.reduce((sum, c) => sum + c.issued, 0);
+      const totalClaimed = channelData.reduce((sum, c) => sum + c.claimed, 0);
+      const totalActivated = channelData.reduce((sum, c) => sum + c.activated, 0);
+
+      new Chart(funnelCtx, {
+        type: 'bar',
+        data: {
+          labels: ['发放 Issued', '认领 Claimed', '激活 Activated'],
+          datasets: [
+            {
+              label: '用户数',
+              data: [totalIssued, totalClaimed, totalActivated],
+              backgroundColor: ['#4f46e5', '#7c3aed', '#f97316'],
+              borderWidth: 0
+            }
+          ]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            },
+            y: {
+              ticks: { color: '#9ca3af', font: { size: 11 } },
+              grid: { color: 'rgba(31,41,55,0.6)' }
+            }
+          }
+        }
+      });
+    }
+
+    function renderFormFunnels() {
+      const tbody = document.getElementById('formFunnelBody');
+      tbody.innerHTML = '';
+      formFunnels.forEach((f) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill pill-primary">${f.formId}</span></td>
+          <td>${f.views}</td>
+          <td>${f.starts}</td>
+          <td>${f.submits}</td>
+          <td>${f.successes}</td>
+          <td>${f.totalSuccessRate.toFixed(1)}%</td>
+          <td>${f.viewToStartRate.toFixed(1)}%</td>
+          <td>${f.startToSubmitRate.toFixed(1)}%</td>
+          <td>${f.submitToSuccessRate.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderFormChannel() {
+      const tbody = document.getElementById('formChannelBody');
+      tbody.innerHTML = '';
+      formChannelBreakdown.forEach((r) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill">${r.formId}</span></td>
+          <td><span class="pill pill-primary">${r.channel}</span></td>
+          <td>${r.views}</td>
+          <td>${r.starts}</td>
+          <td>${r.submits}</td>
+          <td>${r.successes}</td>
+          <td>${r.successRate.toFixed(1)}%</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function renderFormSteps() {
+      const tbody = document.getElementById('formStepBody');
+      tbody.innerHTML = '';
+      formStepDropoff.forEach((r) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td><span class="pill">${r.formId}</span></td>
+          <td>Step ${r.step}</td>
+          <td>${r.nexts}</td>
+          <td>${r.fails}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    // tabs 切换
+    function setupTabs() {
+      const tabFunnel = document.getElementById('tab-funnel');
+      const tabChannel = document.getElementById('tab-channel');
+      const tabSteps = document.getElementById('tab-steps');
+      const panelFunnel = document.getElementById('panel-funnel');
+      const panelChannel = document.getElementById('panel-channel');
+      const panelSteps = document.getElementById('panel-steps');
+
+      function activate(tab) {
+        tabFunnel.classList.remove('active');
+        tabChannel.classList.remove('active');
+        tabSteps.classList.remove('active');
+        panelFunnel.style.display = 'none';
+        panelChannel.style.display = 'none';
+        panelSteps.style.display = 'none';
+
+        if (tab === 'funnel') {
+          tabFunnel.classList.add('active');
+          panelFunnel.style.display = '';
+        } else if (tab === 'channel') {
+          tabChannel.classList.add('active');
+          panelChannel.style.display = '';
+        } else {
+          tabSteps.classList.add('active');
+          panelSteps.style.display = '';
+        }
+      }
+
+      tabFunnel.addEventListener('click', () => activate('funnel'));
+      tabChannel.addEventListener('click', () => activate('channel'));
+      tabSteps.addEventListener('click', () => activate('steps'));
+    }
+
+    window.addEventListener('load', () => {
+      setupTabs();
+      loadDashboardData();
+    });
+  </script>
+</body>
+</html>
