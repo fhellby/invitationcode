@@ -45,7 +45,7 @@ module.exports = async function handler(req, res) {
       ORDER BY activated DESC;
     `;
     const channelResult = await client.query(channelSql);
-    const channelData = channelResult.rows.map(row => ({
+    const channelData = channelResult.rows.map((row) => ({
       name: row.channel,
       issued: Number(row.issued),
       claimed: Number(row.claimed),
@@ -62,7 +62,7 @@ module.exports = async function handler(req, res) {
         SUM(CASE WHEN event_type = 'activated' THEN 1 ELSE 0 END) AS activated
       FROM invitation_events
       GROUP BY COALESCE(wave, 'Unknown')
-      ORDER BY wave;
+      ORDER BY COALESCE(wave, 'Unknown');
     `;
     const waveResult = await client.query(waveSql);
     const waveData = waveResult.rows.map((row, index) => ({
@@ -85,8 +85,8 @@ module.exports = async function handler(req, res) {
       LIMIT 30;
     `;
     const dailyResult = await client.query(dailySql);
-    const labels = dailyResult.rows.map(r => r.day);
-    const activations = dailyResult.rows.map(r => Number(r.activated));
+    const labels = dailyResult.rows.map((r) => r.day);
+    const activations = dailyResult.rows.map((r) => Number(r.activated));
 
     // 5) 表单漏斗（按 form_id）
     const formFunnelSql = `
@@ -101,7 +101,7 @@ module.exports = async function handler(req, res) {
       ORDER BY form_id;
     `;
     const formFunnelResult = await client.query(formFunnelSql);
-    const formFunnels = formFunnelResult.rows.map(row => {
+    const formFunnels = formFunnelResult.rows.map((row) => {
       const views = Number(row.views);
       const starts = Number(row.starts);
       const submits = Number(row.submits);
@@ -113,10 +113,10 @@ module.exports = async function handler(req, res) {
         starts,
         submits,
         successes,
-        viewToStartRate: views ? +(starts / views * 100).toFixed(1) : 0,
-        startToSubmitRate: starts ? +(submits / starts * 100).toFixed(1) : 0,
-        submitToSuccessRate: submits ? +(successes / submits * 100).toFixed(1) : 0,
-        totalSuccessRate: views ? +(successes / views * 100).toFixed(1) : 0
+        viewToStartRate: views ? +((starts / views) * 100).toFixed(1) : 0,
+        startToSubmitRate: starts ? +((submits / starts) * 100).toFixed(1) : 0,
+        submitToSuccessRate: submits ? +((successes / submits) * 100).toFixed(1) : 0,
+        totalSuccessRate: views ? +((successes / views) * 100).toFixed(1) : 0
       };
     });
 
@@ -134,7 +134,7 @@ module.exports = async function handler(req, res) {
       ORDER BY form_id, channel;
     `;
     const formChannelResult = await client.query(formChannelSql);
-    const formChannelBreakdown = formChannelResult.rows.map(row => {
+    const formChannelBreakdown = formChannelResult.rows.map((row) => {
       const views = Number(row.views);
       const successes = Number(row.successes);
       return {
@@ -144,7 +144,7 @@ module.exports = async function handler(req, res) {
         starts: Number(row.starts),
         submits: Number(row.submits),
         successes,
-        successRate: views ? +(successes / views * 100).toFixed(1) : 0
+        successRate: views ? +((successes / views) * 100).toFixed(1) : 0
       };
     });
 
@@ -153,4 +153,48 @@ module.exports = async function handler(req, res) {
       SELECT
         form_id,
         step,
-        SUM(CASE WHEN event_type = 'next'   THEN 1 ELSE 0 END) AS next
+        SUM(CASE WHEN event_type = 'next' THEN 1 ELSE 0 END) AS nexts,
+        SUM(CASE WHEN event_type = 'fail' THEN 1 ELSE 0 END) AS fails
+      FROM form_events
+      WHERE step IS NOT NULL
+      GROUP BY form_id, step
+      ORDER BY form_id, step;
+    `;
+    const formStepResult = await client.query(formStepSql);
+    const formStepDropoff = formStepResult.rows.map((row) => ({
+      formId: row.form_id,
+      step: Number(row.step),
+      nexts: Number(row.nexts),
+      fails: Number(row.fails)
+    }));
+
+    await client.end();
+
+    res.statusCode = 200;
+    res.json({
+      totals: {
+        issued: Number(totals.total_issued || 0),
+        claimed: Number(totals.total_claimed || 0),
+        activated: Number(totals.total_activated || 0)
+      },
+      channelData,
+      waveData,
+      dailyData: {
+        labels,
+        activations
+      },
+      formFunnels,
+      formChannelBreakdown,
+      formStepDropoff
+    });
+  } catch (err) {
+    console.error('dashboard error', err);
+    if (client) {
+      try {
+        await client.end();
+      } catch (_) {}
+    }
+    res.statusCode = 500;
+    res.json({ error: String(err) });
+  }
+};
