@@ -1,31 +1,48 @@
 // api/track.js
-import { Client } from 'pg';
+const { Client } = require('pg');
 
-const connectionString = process.env.DATABASE_URL;
+function createClient() {
+  const connectionString = process.env.DATABASE_URL;
+  return new Client({
+    connectionString,
+    ssl: { rejectUnauthorized: false } // Supabase 需要 SSL
+  });
+}
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method Not Allowed' });
+    res.statusCode = 405;
+    res.json({ error: 'Method Not Allowed' });
     return;
   }
 
   try {
-    const { code, channel, wave, eventType, cost, metadata } = req.body || {};
+    let body = req.body;
+
+    // Vercel 某些环境下 req.body 可能是字符串，做一下兼容
+    if (typeof body === 'string') {
+      try { body = JSON.parse(body); } catch (_) {}
+    }
+
+    const { code, channel, wave, eventType, cost, metadata } = body || {};
 
     if (!code || typeof code !== 'string') {
-      res.status(400).json({ error: 'code is required' });
+      res.statusCode = 400;
+      res.json({ error: 'code is required' });
       return;
     }
     if (!channel || typeof channel !== 'string') {
-      res.status(400).json({ error: 'channel is required' });
+      res.statusCode = 400;
+      res.json({ error: 'channel is required' });
       return;
     }
     if (!['issued', 'claimed', 'activated'].includes(eventType)) {
-      res.status(400).json({ error: 'eventType must be issued|claimed|activated' });
+      res.statusCode = 400;
+      res.json({ error: 'eventType must be issued|claimed|activated' });
       return;
     }
 
-    const client = new Client({ connectionString });
+    const client = createClient();
     await client.connect();
 
     const insertText = `
@@ -45,13 +62,15 @@ export default async function handler(req, res) {
 
     await client.end();
 
-    res.status(200).json({
+    res.statusCode = 200;
+    res.json({
       success: true,
       id: result.rows[0].id,
       createdAt: result.rows[0].created_at,
     });
   } catch (err) {
     console.error('track error', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.statusCode = 500;
+    res.json({ error: 'Internal Server Error' });
   }
-}
+};
