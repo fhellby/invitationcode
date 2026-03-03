@@ -104,12 +104,12 @@ module.exports = async function handler(req, res) {
         activations,
       },
     });
-  } catch (err) {
+ } catch (err) {
     console.error('dashboard error', err);
     if (client) {
       try { await client.end(); } catch (_) {}
     }
     res.statusCode = 500;
-    res.json({ error: 'Internal Server Error' });
+    res.json({ error: String(err) });
   }
 };
